@@ -1,26 +1,38 @@
-const express = require("express");
-const { MongoClient } = require("mongodb");
-const axios = require("axios");
+import express from "express";
+import { MongoClient } from "mongodb";
+import axios from "axios";
+import fs from 'fs/promises';
+
+async function readJSONFile(filepath) {
+  try {
+    const data = await fs.readFile(filepath, 'utf-8');
+    const jsonObj = JSON.parse(data);
+    return jsonObj;
+  } catch (error) {
+    console.error('An error occurred:', error.message);
+    throw error;
+  }
+}
+
 const app = express();
-const users = require("./users_2");
-const usersData = users["users"];
 
-require("dotenv").config();
+const mongoURI = "mongodb+srv://testac042:qrBNlA5NMpGYDm3h@testleet.y9jtdbz.mongodb.net/?retryWrites=true&w=majority"
+const dbName = "student"
+const collectionName = "users_2"
+const logCollectionName = "log"
+const apiUrl = "https://testserver-f62r.onrender.com/sendRequest"
+const apiHeaders = {'Content-Type': 'application/json'};
 
-const mongoURI = process.env.MONGO_URI;
-const dbName = process.env.DB_NAME;
-const collectionName = process.env.COLLECTION_NAME;
-const logCollectionName = process.env.LOG_COLLECTION_NAME;
-const apiUrl = process.env.API_URL;
-const apiHeaders = process.env.HEADERS;
-
-const mongoClient = new MongoClient(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const mongoClient = new MongoClient(mongoURI);
 
 app.get("/updateUserData", async (req, res) => {
   try {
+
+    const users_2 = await readJSONFile('./users_2.json');
+    // console.log(users_2);
+    const users = users_2;
+    const usersData = users["users"];
+
     await mongoClient.connect();
     const db = mongoClient.db(dbName);
     const collection = db.collection(collectionName);
