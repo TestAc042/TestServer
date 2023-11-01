@@ -31,8 +31,8 @@ app.get("/updateUserData", async (req, res) => {
     for (const userInstance of usersData) {
       if (userCount == 100) break;
       userCount++;
-      console.log(userCount);
-      console.log(userInstance);
+      // console.log(userCount);
+      // console.log(userInstance);
 
       let graphqlQuery = {
         username: userInstance,
@@ -48,7 +48,7 @@ app.get("/updateUserData", async (req, res) => {
           headers: apiHeaders,
         });
       } catch (e) {
-        console.log(userInstance, "----- SKIPPED -----", e);
+        // console.log(userInstance, "----- SKIPPED -----", e);
         await logcollection.updateOne(
           { user: userInstance },
           {
@@ -65,7 +65,7 @@ app.get("/updateUserData", async (req, res) => {
       let userData = response.data;
 
       if ("error" in userData) {
-        console.log("ERROR - internal server error", "--- SKIPPED ----");
+        // console.log("ERROR - internal server error", "--- SKIPPED ----");
         await logcollection.updateOne(
           { user: userInstance },
           {
@@ -79,7 +79,7 @@ app.get("/updateUserData", async (req, res) => {
         continue;
       }
       if ("errors" in userData) {
-        console.log("ERROR - user not found", "--- SKIPPED ----");
+        // console.log("ERROR - user not found", "--- SKIPPED ----");
         await logcollection.updateOne(
           { user: userInstance },
           {
@@ -127,7 +127,7 @@ app.get("/updateUserData", async (req, res) => {
         g_ranking = userInfo.data.userContestRanking.globalRanking;
       }
 
-      console.log(q_ranking + " " + g_ranking);
+      // console.log(q_ranking + " " + g_ranking); 
 
       // Generate random data
       const regNo = `20BCE${Math.floor(Math.random() * 899999) + 100000}`;
