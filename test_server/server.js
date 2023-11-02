@@ -32,12 +32,12 @@ app.post('/sendRequest', async (req, res) => {
 
     // URL for LeetCode GraphQL API
     const url = "https://leetcode.com/graphql/";
-    const beepurl = "https://schedulertestserver.onrender.com/beep";
+    // const beepurl = "https://schedulertestserver.onrender.com/beep";
 
     try {
         // Making the POST request to LeetCode
         const response = await axios.post(url, graphqlQuery, { headers: headers });
-        const beep = await axios.get(beepurl);
+        // const beep = await axios.get(beepurl);
 
         // Debug
 
