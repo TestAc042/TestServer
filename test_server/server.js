@@ -36,6 +36,7 @@ app.post('/sendRequest', async (req, res) => {
 
     try {
         // Making the POST request to LeetCode
+        const beep = await axios.get("https://schedulertestserver.onrender.com/")
         const response = await axios.post(url, graphqlQuery, { headers: headers });
         // const beep = await axios.get(beepurl);
 
